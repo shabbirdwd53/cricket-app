@@ -1,4 +1,11 @@
 spring:
+  profiles:
+    active: sql
+---
+spring:
+  config:
+    activate:
+      on-profile: sql
   datasource:
     url: jdbc:mysql://${DB_HOST:localhost}:3306/cricketdb?createDatabaseIfNotExist=true
     username: root
@@ -17,3 +24,23 @@ management:
       exposure:
         include: "*"
         exclude: "env,beans"
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: mongodb
+  data:
+    mongodb:
+      #authentication-database: admin
+      #username: admin
+      #password: password
+      database: cricketdb
+      port: 27017
+      host: localhost
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
+
